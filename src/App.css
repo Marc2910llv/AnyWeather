@@ -1,0 +1,332 @@
+body {
+    background-color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        max-width: 300px;
+    }
+
+    .headerNavigate {
+        flex-direction: column; /* Cambia la dirección del contenedor principal a columna */
+        align-items: center; /* Centra los elementos horizontalmente */
+    }
+
+    .navigationLinks {
+        margin-top: 20px; /* Agrega espacio entre la barra de navegación y los enlaces */
+    }
+
+    .user-logout {
+        margin-top: auto; /* Mueve el elemento al final de la columna */
+    }
+    
+    .pag-container .weather-cards-container {
+        display: flex; /* Cambia el contenedor a bloque */
+        flex-direction: column; /* Cambia la dirección del contenedor a columna */
+        align-items: center; /* Centra los elementos horizontalmente */
+        justify-content: center; /* Centra los elementos verticalmente */
+        gap: 20px;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 20px;
+    }
+
+    .pag-container .weather-card {
+        width: 80%; /* Ocupa todo el ancho disponible */
+        margin-bottom: 20px; /* Agrega espacio entre las tarjetas */
+    }
+}
+
+/* ---- Error and Loading Screens ---- */
+.basic {
+    color: white;
+    font-size: 5vh;
+    font-weight: 900;
+}
+
+/* ---- Login ---- */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    margin-right: 30vh;
+}
+
+.father {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.image-size {
+    max-width: 80%;
+    height: auto;
+}
+
+.textbox {
+    background-color: #cccccc40;
+    border-color: slategray;
+    border-radius: 30px;
+    width: 100%;
+    padding: 15px;
+    border-width: 0px;
+    margin-bottom: 20px;
+}
+
+.textbox:focus {
+    outline: 1px solid rgb(40, 103, 219);
+    box-shadow: 0 0 10px rgb(40, 103, 219);
+}
+
+.btnform {
+    background-color: #0d6efd;
+    border-color: slategray;
+    border-radius: 30px;
+    width: 100%;
+    padding: 15px;
+    border-width: 0px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 800;
+}
+
+.text {
+    font-size: 20px;
+    color: slategray;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 5px;
+}
+
+.btnswitch {
+    background-color: darkblue;
+    border-radius: 30px;
+    padding: 8px;
+    border-width: 0px;
+    color: white;
+    font-size: 16px;
+}
+
+.card {
+    /* form style */
+    max-width: 400px;
+    width: 100%;
+}
+
+.btnform,
+.btnswitch {
+    width: 100%;
+}
+
+/* ---- General ---- */
+.tit-pag {
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.pag-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---- Home ---- */
+.weather-cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-direction: column; /* Cambia la dirección del contenedor a columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.weather-card {
+    background-color: #144da4;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.weather-information{
+    padding-top: 20px;
+}
+
+.weather-in {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.city-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.city-name {
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    padding-bottom: 8px;
+}
+
+.flag {
+    width: 30px;
+    margin-left: 20px;
+    padding-bottom: 8px;
+}
+
+.info {
+    color: white;
+}
+
+.info p {
+    font-weight: 600;
+}
+
+/* ---- Locations ---- */
+.btndelete {
+    background-color: rgb(139, 0, 0);
+    border-radius: 30px;
+    padding: 8px;
+    border-width: 0px;
+    color: white;
+    font-size: 16px;
+    width: 100%;
+}
+
+/* ---- NavigateHeader ---- */
+.headerNavigate {
+    background-color: #000e22;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #2b2b2b;
+}
+
+.navigationLinks {
+    font-size: 18px;
+}
+
+.navigationLinks a {
+    color: #a1a1a1;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 10px;
+    text-decoration: overline;
+}
+
+.navigationLinks a:hover {
+    color: white;
+}
+
+.navigationLinks span {
+    color: #a1a1a1;
+}
+
+.central-container {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.central-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 255, 255);
+    margin-right: 10px;
+}
+
+.user-logout {
+    color: #ffffff;
+    font-weight: 200;
+    margin: 0 10px;
+}
+
+.user-logout a {
+    font-weight: 700;
+    padding-right: 15px;
+}
+
+.btn-primary {
+    width: auto;
+    height: 50px;
+    font-weight: 800;
+}
+
+/* ---- Notification ---- */
+.notification-toast {
+    background-color: #fff;
+    color: #000000;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px;
+    position: relative;
+    animation: slideIn 0.5s ease forwards, fadeOut 8s linear forwards;
+    position: relative;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    height: auto; /* Ajusta automáticamente la altura según el contenido */
+    padding: 15px;
+    box-sizing: border-box; /* Incluir el padding en el ancho total */
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.notification-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.notification-body {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.notification-content {
+    flex: 1; /* Ocupa todo el espacio disponible */
+}
+
+.notification-icon {
+    margin-left: 10px; /* Espacio entre el contenido y el icono */
+    width: 50px;
+    height: 50px;
+}
