@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast'
 import { signIn, register, setupNotification } from '../firebase/firebase';
 
 //import others
-import Loginicon from '../assets/iconWeather.png'
+import loginIcon from '../assets/iconWeather.png'
 
 const Login = () => {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Login = () => {
         <div className='container'>
             <div className="row text-center">
                 <div className="col-md-8">
-                    <img src={Loginicon} alt="" className='image-size' />
+                    <img src={loginIcon} alt="" className='image-size' />
                 </div>
 
                 <div className="col-md-4">

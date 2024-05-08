@@ -16,7 +16,7 @@ const getWeatherByCoordinates = async (city, lat, lon) => {
   }
 };
 
-export const getWeatherByCity = async (city) => {
+export const getWeatherByLocation = async (city) => {
   try {
     // Check Firestore if the city is already stored
     const querySnapshot = await checkLocation(city);
@@ -37,6 +37,6 @@ export const getWeatherByCity = async (city) => {
       return await getWeatherByCoordinates(city, data.coord.lat, data.coord.lon);
     }
   } catch (error) {
-    throw new Error('Not data found')
+    throw new Error('No data found')
   }
 };

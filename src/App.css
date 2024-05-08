@@ -167,13 +167,13 @@ body {
     font-weight: bold;
 }
 
-.city-info {
+.location-info {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.city-name {
+.location-name {
     font-size: 26px;
     color: white;
     font-weight: bold;

@@ -1,8 +1,6 @@
 // Home.jsx
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { getWeatherByCity } from '../functions/getWeather'; // Importa la función getWeatherByCity
+import { useState, useEffect } from 'react';
+import { getWeatherByLocation } from '../functions/getWeather'; // Importa la función getWeatherByLocation
 import { italyFlag, chinaFLag, colombiaFlag, eeuuFlag, germanyFlag, japanFlag, southafricaFlag, spainFlag, turkeyFlag } from '../assets/indexFlag'
 
 const defaultCities = [
@@ -14,18 +12,18 @@ const defaultCities = [
   { name: 'Tokyo', flag: japanFlag },
   { name: 'New York', flag: eeuuFlag },
   { name: 'Medellin', flag: colombiaFlag, },
-{ name: 'Johannesburg', flag: southafricaFlag }];
+  { name: 'Johannesburg', flag: southafricaFlag }];
 
 
 const Home = () => {
 
-  const [city, setCity] = useState('');
+  const [Location, setLocation] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   const fetchWeather = async () => {
     try {
-      const data = await getWeatherByCity(city); // Usa la función getWeatherByCity
+      const data = await getWeatherByLocation(Location); // Usa la función getWeatherByLocation
       setWeatherData(data);
     } catch (error) {
       setErrorMessage(`${error.message}`)
@@ -33,7 +31,7 @@ const Home = () => {
   };
 
   const handleInputChange = (event) => {
-    setCity(event.target.value.toUpperCase());
+    setLocation(event.target.value.toUpperCase());
   };
 
   const handleSubmit = (event) => {
@@ -46,14 +44,14 @@ const Home = () => {
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
-        const dataPromises = defaultCities.map(async (city) => {
-          const data = await getWeatherByCity(city.name);
-          return { ...data, flag: city.flag };
+        const dataPromises = defaultCities.map(async (Location) => {
+          const data = await getWeatherByLocation(Location.name);
+          return { ...data, flag: Location.flag };
         });
         const dataList = await Promise.all(dataPromises);
         setWeatherDataList(dataList);
       } catch (error) {
-        setErrorMessage(`${error.message}`)
+        console.error("No internet")
       }
     };
 
@@ -64,7 +62,7 @@ const Home = () => {
     <div className='pag-container'>
       <div className='tit-pag'>Search Weather</div>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={city} onChange={handleInputChange} placeholder="Enter Location" />
+        <input type="text" value={Location} onChange={handleInputChange} placeholder="Enter Location" />
         <button type="submit">Get Weather</button>
       </form>
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
@@ -86,18 +84,18 @@ const Home = () => {
           <div key={index} className="weather-card">
             {weatherData && (
               <>
-                <div className='city-info'>
-                  <div className='city-name'>{weatherData.name}</div>
+                <div className='location-info'>
+                  <div className='location-name'>{weatherData.name}</div>
                   <img src={weatherData.flag} alt={weatherData.name} className='flag' />
                 </div>
-                <p className='info'>Temperature: {Math.round(weatherData.current.temperature_2m)}°C</p>
-                <p className='info'>Humidity: {weatherData.current.relative_humidity_2m}%</p>
-                <p className='info'>Precipitation: {weatherData.current.precipitation} mm</p>
-                <p className='info'>Clouds: {weatherData.current.cloud_cover}%</p>
-                <p className='info'>Wind Speed: {weatherData.current.wind_speed_10m} km/h</p>
-                <p className='info'>
+                <div className='info'>Temperature: <p>{Math.round(weatherData.current.temperature_2m)}°C</p></div>
+                <div className='info'>Humidity: <p>{weatherData.current.relative_humidity_2m}%</p></div>
+                <div className='info'>Precipitation: <p>{weatherData.current.precipitation} mm</p></div>
+                <div className='info'>Clouds: <p>{weatherData.current.cloud_cover}%</p></div>
+                <div className='info'>Wind Speed: <p>{weatherData.current.wind_speed_10m} km/h</p></div>
+                <div className='info'>
                   {weatherData.current.is_day === 1 ? 'Is Day' : 'Is Night'}
-                </p>
+                </div>
               </>
             )}
           </div>

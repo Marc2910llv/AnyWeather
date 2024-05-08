@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { addUserLocation, getUserLocations, deleteLocation } from '../firebase/firebase'
-import { getWeatherByCity } from '../functions/getWeather';
+import { getWeatherByLocation } from '../functions/getWeather';
 
 const Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -17,8 +17,8 @@ const Locations = () => {
 
         // Itera sobre cada ubicación y obtén su información del clima
         for (const location of userLocations) {
-          // Llama a la función getWeatherByCity para obtener la información del clima
-          const weatherInfo = await getWeatherByCity(location.name);
+          // Llama a la función getWeatherBylocation para obtener la información del clima
+          const weatherInfo = await getWeatherByLocation(location.name);
           // Si se obtiene información del clima, agrégala a la lista weatherInfoList
           if (weatherInfo) {
             weatherInfoList.push({ name: location.name, weatherData: weatherInfo });
@@ -37,7 +37,7 @@ const Locations = () => {
   const handleSaveLocation = async () => {
     if (newLocation.trim() !== '') {
       try {
-        const weatherData = await getWeatherByCity(newLocation);
+        const weatherData = await getWeatherByLocation(newLocation);
         if (!await addUserLocation(newLocation)) {
           throw new Error(`${newLocation} already saved`);
         }
@@ -50,10 +50,10 @@ const Locations = () => {
     }
   };
 
-  const handleDeleteLocation = async (cityName) => {
+  const handleDeleteLocation = async (locationName) => {
     try {
-      await deleteLocation(cityName);
-      setLocations(prevLocations => prevLocations.filter(location => location.name !== cityName));
+      await deleteLocation(locationName);
+      setLocations(prevLocations => prevLocations.filter(location => location.name !== locationName));
     } catch (error) {
       setErrorMessage('Error deleting location');
     }
@@ -75,8 +75,8 @@ const Locations = () => {
       <div className="weather-cards-container">
         {locations.map((location, index) => (
           <div key={index} className="weather-card">
-            <div className='city-info'>
-              <div className='city-name'>{location.name}</div>
+            <div className='location-info'>
+              <div className='location-name'>{location.name}</div>
             </div>
             {location.weatherData && (
               <>
