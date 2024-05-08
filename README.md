@@ -2,7 +2,7 @@
 
 AnyWeather is a functional Weather Web App done with Vite+React.
 
-You view the app using npm:
+You can view the Web App using npm:
 
 $ npm install
 
