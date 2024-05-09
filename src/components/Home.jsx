@@ -1,8 +1,12 @@
-// Home.jsx
 import { useState, useEffect } from 'react';
-import { getWeatherByLocation } from '../functions/getWeather'; // Importa la función getWeatherByLocation
+
+// Import functions
+import { getWeatherByLocation } from '../functions/getWeather';
+
+// Import assets
 import { italyFlag, chinaFLag, colombiaFlag, eeuuFlag, germanyFlag, japanFlag, southafricaFlag, spainFlag, turkeyFlag } from '../assets/indexFlag'
 
+// Define the main cities that will be shown on the main page
 const defaultCities = [
   { name: 'Rome', flag: italyFlag },
   { name: 'Madrid', flag: spainFlag },
@@ -14,72 +18,68 @@ const defaultCities = [
   { name: 'Medellin', flag: colombiaFlag, },
   { name: 'Johannesburg', flag: southafricaFlag }];
 
-
 const Home = () => {
+  const [Location, setLocation] = useState(''); // Location that the user wants to search
+  const [weatherData, setWeatherData] = useState(null); // Data of the searched location
+  const [weatherDataList, setWeatherDataList] = useState([]); // Data of the main cities
+  const [errorMessage, setErrorMessage] = useState(''); // If there is any error, it will be shown
 
-  const [Location, setLocation] = useState('');
-  const [weatherData, setWeatherData] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  // Set the text that the user places in the form as 'Location'
+  const handleInputChange = (event) => {
+    setLocation(event.target.value.toUpperCase());
+  }
 
-  const fetchWeather = async () => {
+  // Search for the location that the user selected
+  async function fetchWeather(event) {
+    event.preventDefault(); // Prevent the browser from performing its default action when a submission event occurs
     try {
-      const data = await getWeatherByLocation(Location); // Usa la función getWeatherByLocation
+      const data = await getWeatherByLocation(Location); // Get the data of the location
       setWeatherData(data);
+      setErrorMessage('');
     } catch (error) {
       setErrorMessage(`${error.message}`)
     }
-  };
+  }
 
-  const handleInputChange = (event) => {
-    setLocation(event.target.value.toUpperCase());
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    fetchWeather();
-  };
-
-  const [weatherDataList, setWeatherDataList] = useState([]);
-
+  // When the component is loaded, show the data of the main cities
   useEffect(() => {
-    const fetchWeatherData = async () => {
+    async function fetchWeatherData (){
       try {
-        const dataPromises = defaultCities.map(async (Location) => {
+        const dataPromises = defaultCities.map(async (Location) => { // Map the cities along with their data
           const data = await getWeatherByLocation(Location.name);
           return { ...data, flag: Location.flag };
         });
-        const dataList = await Promise.all(dataPromises);
+        const dataList = await Promise.all(dataPromises); // Wait for all promises to be resolved
         setWeatherDataList(dataList);
       } catch (error) {
-        console.error("No internet")
+        console.error("Error in fetchWeatherData in the Home component: ", error)
       }
-    };
-
+    }
     fetchWeatherData();
   }, []);
 
   return (
     <div className='pag-container'>
-      <div className='tit-pag'>Search Weather</div>
-      <form onSubmit={handleSubmit}>
+      <div className='tit-pag'>Search Weather</div>{/* Title of the page */}
+      <form onSubmit={fetchWeather}>{/* Form to search for weather information of a location */}
         <input type="text" value={Location} onChange={handleInputChange} placeholder="Enter Location" />
         <button type="submit">Get Weather</button>
       </form>
-      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-      {weatherData && (
-        <div className='weather-information'>
-          <h3 className='weather-in'>Weather in {weatherData.name}</h3>
-          <p className='info'>Temperature: {Math.round(weatherData.current.temperature_2m)}°C</p>
-          <p className='info'>Humidity: {weatherData.current.relative_humidity_2m}%</p>
-          <p className='info'>Precipitation: {weatherData.current.precipitation} mm</p>
-          <p className='info'>Clouds: {weatherData.current.cloud_cover}%</p>
-          <p className='info'>Wind Speed: {weatherData.current.wind_speed_10m} km/h</p>
-          <p className='info'>
-            {weatherData.current.is_day === 1 ? 'Is Day' : 'Is Night'}
-          </p>
-        </div>
-      )}
-      <div className="weather-cards-container">
+      {errorMessage && <div style={{ color: 'red', paddingTop: '10px' }}>{errorMessage}</div>}{/* If there is an error message, show it */}
+      <div className='weather-cards-container'>{/* If there is data, it will be shown in a card */}
+        {weatherData && (
+          <div className='weather-card'>
+            <h3 className='text-center location-name'>Weather in <p style={{textDecoration: 'underline'}}>{weatherData.name}</p></h3>
+            <div className='info'>Temperature: <p>{Math.round(weatherData.current.temperature_2m)}°C</p></div>
+            <div className='info'>Humidity: <p>{weatherData.current.relative_humidity_2m}%</p></div>
+            <div className='info'>Precipitation: <p>{weatherData.current.precipitation} mm</p></div>
+            <div className='info'>Clouds: <p>{weatherData.current.cloud_cover}%</p></div>
+            <div className='info'>Wind Speed: <p>{Math.round(weatherData.current.wind_speed_10m)} km/h</p></div>
+            <div className='info'><p>{weatherData.current.is_day === 1 ? 'Is Day' : 'Is Night'}</p></div>
+          </div>
+        )}
+      </div>
+      <div className='weather-cards-container'>{/* These are the information cards of all the main cities */}
         {weatherDataList.map((weatherData, index) => (
           <div key={index} className="weather-card">
             {weatherData && (
@@ -92,10 +92,8 @@ const Home = () => {
                 <div className='info'>Humidity: <p>{weatherData.current.relative_humidity_2m}%</p></div>
                 <div className='info'>Precipitation: <p>{weatherData.current.precipitation} mm</p></div>
                 <div className='info'>Clouds: <p>{weatherData.current.cloud_cover}%</p></div>
-                <div className='info'>Wind Speed: <p>{weatherData.current.wind_speed_10m} km/h</p></div>
-                <div className='info'>
-                  {weatherData.current.is_day === 1 ? 'Is Day' : 'Is Night'}
-                </div>
+                <div className='info'>Wind Speed: <p>{Math.round(weatherData.current.wind_speed_10m)} km/h</p></div>
+                <div className='info'><p>{weatherData.current.is_day === 1 ? 'Is Day' : 'Is Night'}</p></div>
               </>
             )}
           </div>

@@ -1,15 +1,16 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../firebase/firebase';
 
+//Import firebase functions
+import { auth, onAuthStateChanged } from '../firebase/firebase'
+
+// eslint-disable-next-line react/prop-types
 const ProtectedRoutes = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => { //Set the actual user when the login is done
       setUser(user);
       setLoading(false);
     });
@@ -18,13 +19,13 @@ const ProtectedRoutes = ({ children }) => {
   }, []);
 
   if (loading) {
-    return <div className='basic'>Loading...</div>; // Otra opción sería mostrar un spinner de carga
+    return <div className='basic'>Loading...</div>;
   }
 
   if (user) {
     return children;
   } else {
-    return <Navigate to='/login' />;
+    return <Navigate to='/login' />; //If the user is not loged stay in te Login page
   }
 };
 

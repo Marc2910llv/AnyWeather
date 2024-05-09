@@ -1,17 +1,17 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 
-// import firebase utilities
+//Import firebase utilities
 import { signIn, register, setupNotification } from '../firebase/firebase';
 
-//import others
+//Import assets
 import loginIcon from '../assets/iconWeather.png'
 
 const Login = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); //Returns a method to navigate between links
 
+    //Tells if the user is registering or signing in
     const [registering, setRegistering] = useState(false)
 
     const fAuth = async (e) => {
@@ -20,7 +20,7 @@ const Login = () => {
         const psw = e.target.password.value;
 
         if (registering) {
-            try {
+            try {//When you do the register
                 await register(mail, psw)
                 toast.success('You have successfully registered, you can now log in')
                 setRegistering(false)
@@ -29,7 +29,7 @@ const Login = () => {
             }
         }
         else {
-            try {
+            try {//When you do the sign in
                 await signIn(mail, psw)
                 navigate('/', { replace: true })
                 toast.success('Successful login')
@@ -53,9 +53,10 @@ const Login = () => {
                             <form onSubmit={fAuth}>
                                 <input type="text" placeholder='Enter Email' className='textbox' id='email' />
                                 <input type='password' placeholder='Enter Password' className='textbox' id='password' />
-                                <button className='btnform'>{registering ? "Register" : "Sign In"}</button>
+                                <button className='btnform'>{registering ? "Register" : "Sign In"}</button>{/*The register and sign in button can change positions*/}
                             </form>
-                            <h4 className='text'>{registering ? "If you already have an account" : "If you don't have an account"}</h4><button className='btnswitch' onClick={() => setRegistering(!registering)}>{registering ? "Sign In" : "Register"}</button>
+                            <h4 className='text'>{registering ? "If you already have an account" : "If you don't have an account"}</h4>
+                            <button className='btnswitch' onClick={() => setRegistering(!registering)}>{registering ? "Sign In" : "Register"}</button>
                         </div>
                     </div>
                 </div>

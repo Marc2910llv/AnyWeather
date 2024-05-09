@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { onMessage, getMessaging, getToken } from 'firebase/messaging';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { getMessaging, getToken } from 'firebase/messaging';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, collection, query, where, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
-import { toast } from 'react-hot-toast';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,9 +22,13 @@ export const appFirebase = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(appFirebase);
 
 // ------------ Notifications ------------ //
+
+// Get the messaging instance
 export const messaging = getMessaging(appFirebase);
 
+// Function to get or register the service worker
 async function getOrRegisterServiceWorker() {
+  // Check if service worker is supported by the browser
   if ('serviceWorker' in navigator) {
     try {
       let serviceWorkerRegistration = await window.navigator.serviceWorker.getRegistration('/firebase-cloud-messaging-push-scope');
@@ -44,6 +46,7 @@ async function getOrRegisterServiceWorker() {
   }
 }
 
+// Function to setup notification
 export async function setupNotification() {
   try {
     const serviceWorkerRegistration = await getOrRegisterServiceWorker();
@@ -63,27 +66,39 @@ export async function setupNotification() {
 }
 
 // ------------ Login ------------ //
+
+// Get the auth instance
 export const auth = getAuth(appFirebase);
 
+// Function to get the current user's email
 export function getEmail() {
   return auth.currentUser.email
 }
 
+// Function to sign in
 export async function signIn(mail, psw) {
   await signInWithEmailAndPassword(auth, mail, psw);
 }
 
+// Function to register
 export async function register(mail, psw) {
   await createUserWithEmailAndPassword(auth, mail, psw);
 }
 
+// Function to log out
 export function logout() {
   signOut(auth);
 }
 
+// Export onAuthStateChanged function
+export { onAuthStateChanged }
+
 // ------------ Database ------------ //
+
+// Get the Firestore instance
 export const db = getFirestore(appFirebase);
 
+// Function to save token
 async function saveToken(token) {
   try {
     await addDoc(collection(db, 'users', auth.currentUser.uid, 'token'), { token });
@@ -92,19 +107,30 @@ async function saveToken(token) {
   }
 }
 
+// // Function to check if location exists
 export async function checkLocation(location) {
   const q = query(collection(db, 'cities'), where('name', '==', location));
   return await getDocs(q);
 }
 
-export async function addInfoLocation(location, data) {
-  await addDoc(collection(db, 'cities'), {
-    name: location,
-    lat: data.coord.lat,
-    lon: data.coord.lon
-  });
+// Function to add location info
+export async function addInfoLocation(data) {
+  await addDoc(collection(db, 'cities'), data);
 }
 
+// Function to check location
+export async function checkLocationCache(location) {
+  const data = localStorage.getItem(location);
+  return data ? JSON.parse(data) : null;
+}
+
+// Function to add location info
+export async function addInfoLocationCache(data) {
+  localStorage.setItem(data.name, JSON.stringify(data));
+}
+
+
+// Function to add user location
 export async function addUserLocation(location) {
   const q = query(collection(db, 'users', auth.currentUser.uid, 'locations'), where('name', '==', location));
   const querySnapshot = await getDocs(q);
@@ -115,6 +141,7 @@ export async function addUserLocation(location) {
   return false;
 }
 
+// Function to get user locations
 export async function getUserLocations() {
   try {
     const fetchedLocations = [];
@@ -134,6 +161,7 @@ export async function getUserLocations() {
   }
 }
 
+// Function to delete location
 export async function deleteLocation(location) {
   const querySnapshot = await getDocs(collection(db, 'users', auth.currentUser.uid, 'locations'));
   querySnapshot.forEach(async (doc) => {

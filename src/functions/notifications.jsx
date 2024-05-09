@@ -1,10 +1,11 @@
 import {toast} from 'react-hot-toast'
+
+//Import firebase functions
 import {messaging} from '../firebase/firebase'
 import { onMessage } from 'firebase/messaging';
 
-// Lógica para mostrar el mensaje de notificación
+// Shows the notification with a toast if it is recieved on foreground
 onMessage(messaging, payload => {
-    console.log("mensaje enviado");
     toast(() => (
       <div className="notification-toast">
         <div className="notification-content">
