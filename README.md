@@ -2,6 +2,10 @@
 
 AnyWeather is a functional Weather Web App done with Vite+React.
 
+Credentials:
+ - User Email: admin@mail.com
+ - Password: admin1234
+
 Install first the requisits to use the Web App:
 
 ```sh {"id":"01HXF9GCWQXCRS65CVH103G2MJ"}
