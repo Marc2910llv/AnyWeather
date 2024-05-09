@@ -21,7 +21,6 @@ npm run dev
 First press the register button and create an account. Example:
 
 - Email: your_name@mail.com
-
 - Password (more than 8 characters): '********'
 
 ### Header
@@ -35,3 +34,7 @@ Here you can search the meteorological information about any location you want. 
 ### My Locations
 
 Here you can see all the locations you have saved. To save a location just enter the name and push the 'Save Location' button. You can also delete those locations that you don't want to see any more.
+
+### Offline
+
+If you don't have internet don't worry the app saves the last information of the locations that you have search so you can still see the weather in the Home page.
