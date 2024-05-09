@@ -27,9 +27,11 @@ First press the register button and create an account. Example:
 - Email: your_name@mail.com
 - Password (more than 8 characters): '********'
 
+Then you can sign in with the credentials you have registered.
+
 ### Header
 
-In the header of the page, in the center you can see two links used to move between pages and on the left you can see your user email and a logout button.
+On the header of the page, in the center you can see two links used to move between pages and on the left you can see your user email and a logout button.
 
 ### Home
 
